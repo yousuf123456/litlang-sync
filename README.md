@@ -80,45 +80,85 @@ Usage and Setup Guide: For **Admins :open_file_folder:**
 ### Adjust Constants
 All constant values such as the LLM model name, embeddings model name, and S3 folder prefixes are defined in the file: ```src/utils/consts.ts```. Please review and update these constants to match your specific configuration.
 
-#### S3 Folder Prefixes
-Double-check that all S3 folder prefixes in ```consts.ts``` match your actual bucket structure to avoid errors.
+1. **S3 Folder Prefixes**
+   - Double-check that all S3 folder prefixes in ```consts.ts``` match your actual bucket structure to avoid errors.
 
-#### Language Model (LLM)
-- Currently, the app uses a **Gemini gemini-2.5-flash model** (you may choose any other).
+2. **Language Model (LLM)**
+   - Currently, the app uses a **Gemini gemini-2.5-flash model** (you may choose any other).
   
-- If switching to LLM other than Gemini:
+   - If switching to LLM other than Gemini:
   
-  - Ensure Langchain.js supports it.
+   - Ensure Langchain.js supports it.
     
-  - Modify ```src/utils/llm.ts``` to integrate the new model.
+   - Modify ```src/utils/llm.ts``` to integrate the new model.
 
-#### Embedding Model
-- Currently, the app uses a **Voyage voyage-large-2-instruct** embedding model (you may choose any other).
+3. **Embedding Model**
+   - Currently, the app uses a **Voyage voyage-large-2-instruct** embedding model (you may choose any other).
   
-- If switching to embedding model other than of Voyage:
+   - If switching to embedding model other than of Voyage:
   
-  - Verify compatibility with Langchain.js.
+     - Verify compatibility with Langchain.js.
     
-  - Update ```src/utils/embeddings.ts``` accordingly. 
+     - Update ```src/utils/embeddings.ts``` accordingly. 
 
 
 ### Sync Scripts
 
 All syncing scripts are located in the src/sync/ folder. These scripts iterate through files stored in a predefined structure in your S3 bucket, extract and organize their metadata according to the Prisma schema, and store it in the MongoDB database.
 
-#### Syncing Individual Content Types
-Each content type (subjects, texts, books, book reviews, articles) has its own dedicated sync script. You can sync specific content types by running individual scripts:
-```
-ts-node src/sync/syncSubjects.ts  
-ts-node src/sync/syncBooks.ts  
-# ...and similarly for other content types
-```
+1. **Syncing Individual Content Types**
+   - Each content type (subjects, texts, books, book reviews, articles) has its own dedicated sync script. You can sync specific content types by running individual scripts:
+      ```
+      ts-node src/sync/syncSubjects.ts  
+      ts-node src/sync/syncBooks.ts  
+      # ...and similarly for other content types
+      ```
 
-#### Syncing All Content at Once
+2. **Syncing All Content at Once**
+   - To sync all content types at once, run:
+      ```
+      ts-node src/index.ts
+      ```
 
-To sync all content types at once, run:
-```
-ts-node src/index.ts
-```
 
+<!-- Embeddings Generation Process Overview -->
+## PDF Embeddings Generation
 
+### Overview
+```src/sync/generateEmbeddings.ts``` ,this script processes subjects PDF documents stored in an S3 bucket, breaks them into semantically meaningful chunks using LLM-based parsing, and generates embeddings. These embeddings are stored in a vector Pinecone database for efficient retrieval in a **Retrieval-Augmented Generation (RAG)** system.
+
+### Key Workflow
+
+1. **Getting PDFs**
+   - The script recursively explores each subdirectory in ```Subjects/``` folder to get PDF files (ignoring handwritten or previously processed ones).
+   - Downloads each PDF and extracts its text content using ```PDFLoader``` from Langchain Document Loaders.
+
+2. **Semantic Chunking (LLM-Based)**
+   - Uses **LLM** to identify natural document sections.
+   - Creates sections based on **topics and concepts**.
+   - **Title and Summary** is also created for each semantic chunk for better context.
+   - Example LLM output format:
+      ```
+      {
+        "sections": [
+          {
+            "title": "Literature Review",
+            "summary": "This section discusses prior research on the topic.",
+            "startIndex": 50,  // Starting line index
+            "endIndex": 120    // Ending line index
+          }
+        ]
+      }
+      ```
+
+3. **Chunking (Token-Based)**
+   - If the section is oversized (e.g., > **528 tokens**), it’s further split into sub-chunks using ```RecursiveCharacterTextSplitter``` from Langchain Text Splitters.
+   - Attach **metadata** (e.g., section titles, summaries, page numbers) to each sub chunk for efficient and accurate retrieval.
+  
+4. **Embeddings and Storage**
+   - Chunks are converted into **embeddings** using a configured model (e.g., Voyage).
+   - Stores in **Pinecone** with ```fileKey``` for filtering specific file when retrieving chunks.
+  
+### Usage
+Run the script to process all PDFs in the S3 bucket:
+```ts-node src/sync/generateEmbeddings.ts```
