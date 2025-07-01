@@ -1,8 +1,23 @@
 <!-- Improved compatibility of back to top link -->
 <a id="readme-top"></a>
 
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Unlicense License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/yousuf123456/litlang-sync">
     <img src="https://github.com/yousuf123456/LitLang/blob/main/public/logo.png" alt="Logo" width="100" height="100">
   </a>
   
@@ -11,14 +26,12 @@
   <p align="center">
     Repository containing data synchronization scripts and embedding generator script for Litlang's content pipeline.
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/yousuf123456/litlang-sync"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/yousuf123456/litlang-sync/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    &middot;
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/yousuf123456/litlang-sync/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 
   <br />
@@ -120,6 +133,8 @@ All syncing scripts are located in the src/sync/ folder. These scripts iterate t
       ts-node src/index.ts
       ```
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- Embeddings Generation Process Overview -->
 ## PDF Embeddings Generation
@@ -162,3 +177,37 @@ All syncing scripts are located in the src/sync/ folder. These scripts iterate t
 ### Usage
 Run the script to process all PDFs in the S3 bucket:
 ```ts-node src/sync/generateEmbeddings.ts```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTACT -->
+## Contact
+
+Muhammad Yousuf - [Linkedin](www.linkedin.com/in/muhammad-yousuf-dev) - m.yousuf.developer@gmail.com
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/yousuf123456/litlang-sync.svg?style=for-the-badge
+[contributors-url]: https://github.com/yousuf123456/litlang-sync/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/yousuf123456/litlang-sync.svg?style=for-the-badge
+[forks-url]: https://github.com/yousuf123456/litlang-sync/network/members
+[stars-shield]: https://img.shields.io/github/stars/yousuf123456/litlang-sync.svg?style=for-the-badge
+[stars-url]: https://github.com/yousuf123456/litlang-sync/stargazers
+[issues-shield]: https://img.shields.io/github/issues/yousuf123456/litlang-sync.svg?style=for-the-badge
+[issues-url]: https://github.com/yousuf123456/litlang-sync/issues
+[license-shield]: https://img.shields.io/github/license/yousuf123456/litlang-sync.svg?style=for-the-badge
+[license-url]: https://github.com/yousuf123456/litlang-sync/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/muhammad-yousuf-dev
